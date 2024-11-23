@@ -12,6 +12,8 @@ This project is a simple **Laravel-based Pegawai Management System** with CRUD f
    - Display a list of employees using **REST API** and **AJAX**.
    - Features include sorting and filtering data by any desired column.
    - The data is fetched dynamically and displayed in a responsive DataTable.
+     ![image](https://github.com/user-attachments/assets/96418763-fbee-4b4c-a9f9-c93a7bea4889)
+
 
 2. **Add Employee**
    - A form to add new employee data with the following fields:
@@ -20,6 +22,8 @@ This project is a simple **Laravel-based Pegawai Management System** with CRUD f
      - Upload photo (image files only).
      - Upload document (PDF only).
    - Utilizes **jQuery Validator** for client-side form validation.
+     ![image](https://github.com/user-attachments/assets/33ff1b50-cab2-49b1-a474-c92aff764839)
+
 
 3. **View Employee Details**
    - Displays detailed information about a specific employee, including:
@@ -27,9 +31,13 @@ This project is a simple **Laravel-based Pegawai Management System** with CRUD f
      - Uploaded documents
      - Other personal details.
    - Includes an option to edit or delete the employee record.
+     ![image](https://github.com/user-attachments/assets/42629372-22bc-485f-852e-9b5f5fece727)
+
 
 4. **Edit Employee**
    - Allows editing the data of an employee, including re-uploading their photo and documents.
+     ![image](https://github.com/user-attachments/assets/a72c9f9d-8808-416a-b4d6-43a91d7f73db)
+
 
 5. **Delete Employee**
    - Removes an employee record from the database along with their associated uploaded files (photo and document).
