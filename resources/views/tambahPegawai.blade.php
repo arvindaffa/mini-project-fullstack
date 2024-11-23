@@ -28,6 +28,33 @@
     <!-- Dropzone -->
     <link href="https://cdn.jsdelivr.net/npm/dropzone/dist/dropzone.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/dropzone/dist/dropzone-min.js"></script>
+
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Error State */
+        input.error, select.error {
+            border-color: #dc3545 !important;
+        }
+
+        /* Valid State */
+        input.valid, select.valid {
+            border-color: #28a745 !important;
+        }
+
+        /* Error Message Styling */
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875em;
+        }
+    </style>
 </head>
 <body class="bg-light">
     <div class="container mt-5">
@@ -36,26 +63,36 @@
                 <h3>Form Tambah Pegawai</h3>
             </div>
             <div class="card-body">
-                <form action="/tambahpegawai/add" method="POST" enctype="multipart/form-data">
+                <form id="formPegawai" action="/tambahpegawai/add" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <!-- Nama Depan -->
                     <div class="mb-3">
                         <label for="firstName" class="form-label">Nama Depan:</label>
                         <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Masukkan nama depan" required>
+                        <div class="error-message" id="firstNameError"></div>
                     </div>
 
                     <!-- Nama Belakang -->
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Nama Belakang:</label>
                         <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Masukkan nama belakang" required>
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="noLastName">
+                            <label class="form-check-label" for="noLastName">
+                                Tidak memiliki nama belakang
+                            </label>
+                        </div>
+                        <div class="error-message" id="lastNameError"></div>
                     </div>
 
                     <!-- Umur -->
                     <div class="mb-3">
                         <label for="umur" class="form-label">Umur:</label>
-                        <input type="number" id="umur" name="umur" class="form-control" placeholder="Masukkan umur" required>
+                        <input type="number" id="umur" name="umur" min="0" class="form-control" placeholder="Masukkan umur" required>
+                        <div class="error-message" id="umurError"></div>
                     </div>
+
 
                     <!-- Departemen -->
                     <div class="mb-3">
@@ -67,6 +104,7 @@
                             <option value="HR">HR</option>
                             <option value="Marketing">Marketing</option>
                         </select>
+                        <div class="error-message" style="color: red" id="departemenError"></div>
                     </div>
 
                     <!-- Jenis Kelamin -->
@@ -77,6 +115,7 @@
                             <option value="Pria">Pria</option>
                             <option value="Wanita">Wanita</option>
                         </select>
+                        <div class="error-message" style="color: red" id="jenisKelaminError"></div>
                     </div>
 
                     <!-- Tanggal Masuk -->
@@ -110,6 +149,88 @@
 
     <script>
         $(document).ready(function () {
+            // Validasi jika tidak memiliki nama belakang
+            $("#firstName").on("blur input", function () {
+                if ($(this).val().trim() === "") {
+                    $(this).removeClass("valid").addClass("error");
+                    $("#firstNameError").text("Nama depan harus diisi.");
+                } else {
+                    $(this).removeClass("error").addClass("valid");
+                    $("#firstNameError").text("");
+                }
+            });
+
+            // Validasi Nama Belakang
+            $("#lastName").on("blur input", function () {
+                if ($("#noLastName").is(":checked")) {
+                    $(this).removeClass("error").addClass("valid");
+                    $("#lastNameError").text("");
+                } else if ($(this).val().trim() === "") {
+                    $(this).removeClass("valid").addClass("error");
+                    $("#lastNameError").text("Nama belakang harus diisi.");
+                } else {
+                    $(this).removeClass("error").addClass("valid");
+                    $("#lastNameError").text("");
+                }
+            });
+
+            $("#noLastName").on("change", function () {
+                if ($(this).is(":checked")) {
+                    $("#lastName").val("").prop("disabled", true).removeClass("error").addClass("valid");
+                    $("#lastNameError").text("");
+                } else {
+                    $("#lastName").prop("disabled", false);
+                    if ($("#lastName").val().trim() === "") {
+                        $("#lastName").addClass("error");
+                        $("#lastNameError").text("Nama belakang harus diisi.");
+                    }
+                }
+            });
+
+            // Validasi Umur
+            $("#umur").on("blur input", function () {
+                if ($(this).val().trim() === "" || $(this).val() < 0) {
+                    $(this).removeClass("valid").addClass("error");
+                    $("#umurError").text("Umur harus berupa angka lebih dari atau sama dengan 0.");
+                } else {
+                    $(this).removeClass("error").addClass("valid");
+                    $("#umurError").text("");
+                }
+            });
+
+            // Validasi Dropdown Departemen
+            $("#departemen").on("change", function () {
+                if ($(this).val() === null) {
+                    $(this).removeClass("valid").addClass("error");
+                    $("#departemenError").text("Pilih salah satu departemen.");
+                } else {
+                    $(this).removeClass("error").addClass("valid");
+                    $("#departemenError").text("");
+                }
+            });
+
+            // Validasi Dropdown Jenis Kelamin
+            $("#jenis_kelamin").on("change", function () {
+                if ($(this).val() === null) {
+                    $(this).removeClass("valid").addClass("error");
+                    $("#jenisKelaminError").text("Pilih salah satu jenis kelamin.");
+                } else {
+                    $(this).removeClass("error").addClass("valid");
+                    $("#jenisKelaminError").text("");
+                }
+            });
+
+            // Validasi Tanggal Masuk
+            $("#tanggal_masuk").on("blur input", function () {
+                if ($(this).val().trim() === "") {
+                    $(this).removeClass("valid").addClass("error");
+                    $("#tanggalMasukError").text("Pilih tanggal masuk.");
+                } else {
+                    $(this).removeClass("error").addClass("valid");
+                    $("#tanggalMasukError").text("");
+                }
+            });
+
             // Select2
             $('#departemen, #jenis_kelamin').select2({
                 placeholder: "Pilih",
@@ -135,7 +256,8 @@
                 maxFileSize: 2048,
                 showCaption: true,
                 browseOnZoneClick: true,
-                dropZoneEnabled: true
+                dropZoneEnabled: true,
+                showPreview: false
             });
 
             Dropzone.autoDiscover = false;
@@ -147,14 +269,14 @@
                 addRemoveLinks: true,
                 maxFilesize: 5,
                 headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
                 },
                 success: function (file, response) {
                     console.log("CV berhasil diunggah:", response.cvPath);
                 },
                 error: function (file, errorMessage) {
                     console.error("Error upload CV:", errorMessage);
-                }
+                },
             });
         });
     </script>
