@@ -1,66 +1,174 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# README
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Title: Laravel Employee Management System
 
-## About Laravel
+This project is a simple **Laravel-based Pegawai Management System** with CRUD functionalities. It consists of four main views for managing employee data. The system is built using **Laravel framework**, with data managed through a database table `data_pegawai`. The project utilizes **Eloquent ORM**, **AJAX**, and **jQuery Validator** for efficient and dynamic user interaction.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **View Employee List**
+   - Display a list of employees using **REST API** and **AJAX**.
+   - Features include sorting and filtering data by any desired column.
+   - The data is fetched dynamically and displayed in a responsive DataTable.
 
-## Learning Laravel
+2. **Add Employee**
+   - A form to add new employee data with the following fields:
+     - Name
+     - Email (validated to ensure uniqueness via AJAX check to the database).
+     - Upload photo (image files only).
+     - Upload document (PDF only).
+   - Utilizes **jQuery Validator** for client-side form validation.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. **View Employee Details**
+   - Displays detailed information about a specific employee, including:
+     - Photo
+     - Uploaded documents
+     - Other personal details.
+   - Includes an option to edit or delete the employee record.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4. **Edit Employee**
+   - Allows editing the data of an employee, including re-uploading their photo and documents.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+5. **Delete Employee**
+   - Removes an employee record from the database along with their associated uploaded files (photo and document).
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Technologies Used
 
-### Premium Partners
+### Backend
+- **Laravel Framework**: Handles routing, business logic, and database management.
+- **Eloquent ORM**: Provides an object-oriented way to interact with the database.
+- **REST API**: Enables data fetching for the employee list view.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Frontend
+- **Bootstrap**: For responsive and user-friendly UI.
+- **jQuery and AJAX**: For dynamic data updates without page reloads.
+- **DataTables**: For advanced table functionalities like sorting and filtering.
+- **jQuery Validator**: To validate form inputs before submission.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Installation
 
-## Code of Conduct
+### Prerequisites
+- PHP (>=8.0)
+- Composer
+- MySQL or any other database supported by Laravel
+- Node.js and npm (optional, for frontend dependency management)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/arvindaffa/mini-project-fullstack.git
+   cd mini-project-fullstack
+   ```
 
-## Security Vulnerabilities
+2. Install dependencies:
+   ```bash
+   composer install
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Configure the `.env` file:
+   - Update the database connection settings:
+     ```
+     DB_CONNECTION=mysql
+     DB_DATABASE=pegawai
+     ```
 
-## License
+4. Run migrations and seeders to create and populate the `data_pegawai` table:
+   ```bash
+   php artisan migrate --seed
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Serve the application:
+   ```bash
+   php artisan serve
+   ```
+
+---
+
+## Database Structure
+
+The database consists of a single table named `data_pegawai` with the following columns:
+- `id`: Primary key.
+- `nama`: Employee's full name.
+- `email`: Employee's email (unique).
+- `departemen`: Employee's department.
+- `umur`: Employee's age.
+- `jenis_kelamin`: Employee's gender.
+- `tanggal_masuk`: Date of joining.
+- `foto`: Path to the uploaded photo.
+- `cv`: Path to the uploaded document.
+- `created_at` and `updated_at`: Timestamps.
+
+---
+
+## How It Works
+
+1. **List Employee Data**
+   - The `pegawai` view fetches employee data from the `data_pegawai` table via an API route.
+   - AJAX dynamically updates the table with sorting and filtering options.
+
+2. **Add Employee**
+   - The `tambahpegawai` view includes a form validated with jQuery Validator.
+   - AJAX is used to check the uniqueness of the email before submission.
+   - Photo and document uploads are handled using Laravel's `Storage` facade.
+
+3. **View Details**
+   - The `detailpegawai` view displays all details of an employee.
+   - Photo and documents are retrieved dynamically and displayed.
+
+4. **Edit Employee**
+   - The `editpegawai` view provides a pre-filled form with the employee's current data.
+   - Users can update fields and re-upload files.
+
+5. **Delete Employee**
+   - The `hapuspegawai` function deletes the employee record and associated files.
+
+---
+
+## API Endpoints
+
+1. **GET /api/pegawai**
+   - Fetches the list of all employees in JSON format.
+
+2. **POST /cek-email**
+   - Checks if an email exists in the database for validation during the addition or editing of an employee.
+
+---
+
+## File Uploads
+
+- Employee photos and documents are stored in the `storage/app/public/uploads` directory.
+- Use the following command to create a symbolic link to access these files publicly:
+  ```bash
+  php artisan storage:link
+  ```
+
+---
+
+## Key Libraries and Dependencies
+
+- **Laravel**: Framework for backend logic.
+- **DataTables**: Frontend table management.
+- **Dropzone.js**: File uploads.
+- **Select2**: Dropdown and Selection.
+- **Bootstrap**: Responsive design.
+- **Faker**: For seeding the database with dummy data.
+- **jQuery Validator**: For form validation.
+
+---
+
+## Future Enhancements
+You can:
+- Add API Endpoint for Create, Update, and Delete.
+- Add user authentication for restricted access.
+- Implement role-based access control for admin and user roles.
+- Include advanced reporting features for employee data.
+
+---
+
+Enjoy building with Laravel! 🚀
