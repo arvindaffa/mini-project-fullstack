@@ -2,7 +2,7 @@
 
 ## Project Title: Laravel Employee Management System
 
-This project is a simple **Laravel-based Pegawai Management System** with CRUD functionalities. It consists of four main views for managing employee data. The system is built using **Laravel framework**, with data managed through a database table `data_pegawai`. The project utilizes **Eloquent ORM**, **AJAX**, and **jQuery Validator** for efficient and dynamic user interaction.
+This project is a simple **Laravel-based Pegawai Management System** with CRUD functionalities. It consists of four main views for managing employee data. The system is built using **Laravel Framework 11.33.2**, with data managed through MySQL. The project utilizes **Eloquent ORM**, **AJAX**, and **jQuery Validator** for efficient and dynamic user interaction.
 
 ---
 
