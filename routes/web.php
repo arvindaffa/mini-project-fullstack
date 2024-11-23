@@ -13,6 +13,7 @@ Route::get('pegawai', function () {
 
 Route::controller(PegawaiController::class)->group(function () {
     Route::get('/pegawai2', 'getPegawai');
+    Route::get('/tambahpegawai', 'addPegawai');
     // Route::post('/daftar/add','add');
     // Route::get('/homepagepelanggan', 'index');
 });

@@ -31,22 +31,26 @@ class PegawaiSeeder extends Seeder
 
         // seeder otomatis pakai faker
 
-        $faker = Faker::create('en_US');
+        $faker = Faker::create('id_ID');
 
         for ($i = 1; $i <= 10; $i++){
             $gender = $faker->randomElement(['male', 'female']);
-            $nama = $faker->name($gender);
+            $firstName = $faker->firstName($gender);
+            $lastName = $faker->lastName;
+            $nama = $firstName . ' ' . $lastName;
             $nama_email = strtolower(str_replace(' ', '.', $nama));
             $email = $nama_email . '@biis.corp';
             $jenis_kelamin = $gender == 'male' ? 'Pria' : 'Wanita';
 
+            $departemen =$faker->randomElement(['IT', 'Marketing', 'Finance', 'HRD']);
+
             DB::table('data_pegawai')->insert([
                 'nama' => $nama,
                 'email' => $email,
-                'departemen' => $faker->jobTitle(),
+                'departemen' => $departemen,
                 'umur'=> $faker->numberBetween(20,50),
                 'jenis_kelamin'=>$jenis_kelamin,
-                'tanggal_masuk'=> $faker->date(),
+                'tanggal_masuk'=> $faker->dateTimeThisDecade(now()),
                 'foto' => null,
                 'cv' => null,
                 'created_at' => now(),

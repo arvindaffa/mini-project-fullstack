@@ -13,4 +13,8 @@ class PegawaiController extends Controller
 
         return view('pegawai', compact('dataPegawai'));
     }
+
+    public function addPegawai(){
+        return view('tambahPegawai');
+    }
 }
