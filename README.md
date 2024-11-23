@@ -86,12 +86,17 @@ This project is a simple **Laravel-based Pegawai Management System** with CRUD f
      DB_DATABASE=pegawai
      ```
 
-4. Run migrations and seeders to create and populate the `data_pegawai` table:
+4. Run migrations to make a table
    ```bash
-   php artisan migrate --seed
+   php artisan migrate
+   ```
+   
+5. Run the  seeders to create and populate the `data_pegawai` table:
+   ```bash
+   php artisan db:seed --class=PegawaiSeeder
    ```
 
-5. Serve the application:
+6. Serve the application:
    ```bash
    php artisan serve
    ```
@@ -173,6 +178,7 @@ The database consists of a single table named `data_pegawai` with the following 
 ## Future Enhancements
 You can:
 - Add API Endpoint for Create, Update, and Delete.
+- Add more table to make a relation e.g. Salary_Table
 - Add user authentication for restricted access.
 - Implement role-based access control for admin and user roles.
 - Include advanced reporting features for employee data.
