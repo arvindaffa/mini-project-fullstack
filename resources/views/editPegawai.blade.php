@@ -1,13 +1,13 @@
 @extends('template')
 
 @section('title')
-    Tambah Pegawai
+    Edit Data Pegawai
 @endsection
 
 @section('head')
-    <!-- Select2 -->
+    {{-- <!-- Select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
 
     <!-- Daterangepicker -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -34,14 +34,12 @@
         }
 
         /* Error State */
-        input.error,
-        select.error {
+        input.error {
             border-color: #dc3545 !important;
         }
 
         /* Valid State */
-        input.valid,
-        select.valid {
+        input.valid {
             border-color: #28a745 !important;
         }
 
@@ -53,101 +51,112 @@
     </style>
 @endsection
 
-@section('judulForm')
-    Form Tambah Pegawai
-@endsection
+@section('judulForm', 'Edit Detail Pegawai')
 
 @section('card')
-    <form id="formPegawai" action="/tambahpegawai/add" method="POST" enctype="multipart/form-data">
+    {{-- Form Edit --}}
+    <form action="{{ route('updatepegawai', $pegawai->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
 
-        <!-- Nama Depan -->
-        <div class="mb-3">
-            <label for="firstName" class="form-label">Nama Depan:</label>
-            <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Masukkan nama depan"
-                required>
-            <div class="error-message" id="firstNameError"></div>
-        </div>
-
-        <!-- Nama Belakang -->
-        <div class="mb-3">
-            <label for="lastName" class="form-label">Nama Belakang:</label>
-            <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Masukkan nama belakang"
-                required>
-            <div class="form-check mt-2">
-                <input class="form-check-input" type="checkbox" id="noLastName">
-                <label class="form-check-label" for="noLastName">
-                    Tidak memiliki nama belakang
-                </label>
+        {{-- Foto --}}
+        <div class="mb-3 row">
+            <label for="foto" class="col-sm-2 col-form-label">Foto</label>
+            <div class="col-sm-10">
+                @if($pegawai->foto)
+                    <div class="d-flex justify-content-center mb-3">
+                        <img src="{{ asset('storage/' . $pegawai->foto) }}" alt="Foto Pegawai" class="img-fluid"
+                            style="max-width: 200px; max-height: 200px;">
+                    </div>
+                @endif
+                <input type="file" id="foto" name="foto" class="form-control">
+                <small class="text-muted">Kosongkan jika tidak ingin mengubah foto.</small>
             </div>
-            <div class="error-message" id="lastNameError"></div>
         </div>
 
-        <!-- Email -->
-        <div class="mb-3">
-            <label for="emailName" class="form-label">Email:</label>
-            <div class="input-group">
-                <input type="text" id="emailName" name="emailName" class="form-control" placeholder="Masukkan nama email" required>
-                <span class="input-group-text">@biis.corp</span>
+        {{-- Nama --}}
+        <div class="mb-3 row">
+            <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+            <div class="col-sm-10">
+                <input type="text" id="nama" name="nama" class="form-control" value="{{ $pegawai -> nama }}" required>
+                <div class="error-message" id="namaError"></div>
             </div>
-            <div class="error-message" id="emailError"></div>
         </div>
 
-        <!-- Umur -->
-        <div class="mb-3">
-            <label for="umur" class="form-label">Umur:</label>
-            <input type="number" id="umur" name="umur" min="0" class="form-control"
-                placeholder="Masukkan umur" required>
-            <div class="error-message" id="umurError"></div>
+        {{-- Email --}}
+        <div class="mb-3 row">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" id="emailName" name="emailName" class="form-control" placeholder="Masukkan nama email" value="{{ $emailNameNew }}">
+                    <span class="input-group-text">@biis.corp</span>
+                </div>
+                <div class="error-message" id="emailError"></div>
+            </div>
         </div>
 
-        <!-- Departemen -->
-        <div class="mb-3">
-            <label for="departemen" class="form-label">Departemen:</label>
-            <select id="departemen" name="departemen" class="form-select">
-                <option value="" disabled selected>Pilih Departemen</option>
-                <option value="IT">IT</option>
-                <option value="Finance">Finance</option>
-                <option value="HR">HR</option>
-                <option value="Marketing">Marketing</option>
-            </select>
-            <div class="error-message" style="color: red" id="departemenError"></div>
+        {{-- Departemen --}}
+        <div class="mb-3 row">
+            <label for="departemen" class="col-sm-2 col-form-label">Departemen</label>
+            <div class="col-sm-10">
+                <select id="departemen" name="departemen" class="form-select" required>
+                    <option value="IT" {{ $pegawai->departemen == 'IT' ? 'selected' : '' }}>IT</option>
+                    <option value="Finance" {{ $pegawai->departemen == 'Finance' ? 'selected' : '' }}>Finance</option>
+                    <option value="HR" {{ $pegawai->departemen == 'HR' ? 'selected' : '' }}>HR</option>
+                    <option value="Marketing" {{ $pegawai->departemen == 'Marketing' ? 'selected' : '' }}>Marketing</option>
+                </select>
+                <div class="error-message" style="color: red" id="departemenError"></div>
+            </div>
         </div>
 
-        <!-- Jenis Kelamin -->
-        <div class="mb-3">
-            <label for="jenis_kelamin" class="form-label">Jenis Kelamin:</label>
-            <select id="jenis_kelamin" name="jenis_kelamin" class="form-select">
-                <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                <option value="Pria">Pria</option>
-                <option value="Wanita">Wanita</option>
-            </select>
-            <div class="error-message" style="color: red" id="jenisKelaminError"></div>
+        {{-- Umur --}}
+        <div class="mb-3 row">
+            <label for="umur" class="col-sm-2 col-form-label">Umur</label>
+            <div class="col-sm-10">
+                <input type="number" id="umur" name="umur" class="form-control" min="0" value="{{ $pegawai->umur }}" required>
+                <div class="error-message" id="umurError"></div>
+            </div>
         </div>
 
-        <!-- Tanggal Masuk -->
-        <div class="mb-3">
-            <label for="tanggal_masuk" class="form-label">Tanggal Masuk:</label>
-            <input type="text" id="tanggal_masuk" name="tanggal_masuk" class="form-control"
-                placeholder="Pilih tanggal masuk" required>
+        {{-- Jenis Kelamin --}}
+        <div class="mb-3 row">
+            <label for="jenis_kelamin" class="col-sm-2 col-form-label">Jenis Kelamin</label>
+            <div class="col-sm-10">
+                <select id="jenis_kelamin" name="jenis_kelamin" class="form-select" required>
+                    <option value="Pria" {{ $pegawai->jenis_kelamin == 'Pria' ? 'selected' : '' }}>Pria</option>
+                    <option value="Wanita" {{ $pegawai->jenis_kelamin == 'Wanita' ? 'selected' : '' }}>Wanita</option>
+                </select>
+                <div class="error-message" style="color: red" id="jenisKelaminError"></div>
+            </div>
         </div>
 
-        <!-- Foto -->
-        <div class="mb-3">
-            <label for="foto" class="form-label">Foto:</label>
-            <input id="foto" name="foto" type="file" class="form-control">
+        {{-- Tanggal Masuk --}}
+        <div class="mb-3 row">
+            <label for="tanggal_masuk" class="col-sm-2 col-form-label">Tanggal Masuk</label>
+            <div class="col-sm-10">
+                <input type="text" id="tanggal_masuk" name="tanggal_masuk" class="form-control"
+                    value="{{ $pegawai->tanggal_masuk }}" placeholder="Pilih tanggal masuk" required>
+            </div>
         </div>
 
-        <!-- CV -->
-        <div class="mb-3">
-            <label for="cvDropzone" class="form-label">CV:</label>
-            <div id="cvDropzone" class="dropzone"></div>
+        {{-- CV --}}
+        <div class="mb-3 row">
+            <label for="cvDropzone" class="col-sm-2 col-form-label">CV</label>
+            <div class="col-sm-10">
+                @if($pegawai->cv)
+                    <a href="{{ asset('storage/' . $pegawai->cv) }}" target="_blank" class="btn btn-primary mb-3">
+                        Lihat CV
+                    </a>
+                @endif
+                <input type="file" id="cvDropzone" name="cv" class="form-control">
+                <small class="text-muted">Kosongkan jika tidak ingin mengubah CV.</small>
+            </div>
         </div>
 
         {{-- Tombol Simpan --}}
         <div class="d-flex justify-content-between">
-            <a href="/" class="btn btn-secondary">Kembali</a>
-            <button type="submit" class="btn btn-success">Simpan</button>
+            <a href="{{ route('detailpegawai', $pegawai->id) }}" class="btn btn-secondary">Kembali</a>
+            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
         </div>
     </form>
 @endsection
@@ -156,40 +165,13 @@
     <script>
         $(document).ready(function() {
             // Validasi jika tidak memiliki nama belakang
-            $("#firstName").on("blur input", function() {
+            $("#nama").on("blur input", function() {
                 if ($(this).val().trim() === "") {
                     $(this).removeClass("valid").addClass("error");
-                    $("#firstNameError").text("Nama depan harus diisi.");
+                    $("#namaError").text("Nama harus diisi.");
                 } else {
                     $(this).removeClass("error").addClass("valid");
-                    $("#firstNameError").text("");
-                }
-            });
-
-            // Validasi Nama Belakang
-            $("#lastName").on("blur input", function() {
-                if ($("#noLastName").is(":checked")) {
-                    $(this).removeClass("error").addClass("valid");
-                    $("#lastNameError").text("");
-                } else if ($(this).val().trim() === "") {
-                    $(this).removeClass("valid").addClass("error");
-                    $("#lastNameError").text("Nama belakang harus diisi.");
-                } else {
-                    $(this).removeClass("error").addClass("valid");
-                    $("#lastNameError").text("");
-                }
-            });
-
-            $("#noLastName").on("change", function() {
-                if ($(this).is(":checked")) {
-                    $("#lastName").val("").prop("disabled", true).removeClass("error").addClass("valid");
-                    $("#lastNameError").text("");
-                } else {
-                    $("#lastName").prop("disabled", false);
-                    if ($("#lastName").val().trim() === "") {
-                        $("#lastName").addClass("error");
-                        $("#lastNameError").text("Nama belakang harus diisi.");
-                    }
+                    $("#namaError").text("");
                 }
             });
 
@@ -199,7 +181,7 @@
                 const emailFull = emailName + "@biis.corp";
                 if (emailName === "") {
                     $(this).addClass("error").removeClass("valid");
-                    $("#emailError").text("Nama email harus diisi.");
+                    $("#emailError").text("Email harus diisi.");
                 } else {
                     // Kirim request AJAX untuk cek email di database
                     $.ajax({
@@ -210,7 +192,7 @@
                             _token: "{{ csrf_token() }}"
                         },
                         success: function (response) {
-                            if (response.exists) {
+                            if (response.exists && response.id !== {{ $pegawai->id }}) {
                                 $("#emailName").addClass("error").removeClass("valid");
                                 $("#emailError").text("Email sudah digunakan.");
                             } else {
@@ -273,14 +255,14 @@
             // Select2
             $('#departemen, #jenis_kelamin').select2({
                 placeholder: "Pilih",
-                allowClear: true,
-                width: '100%'
+                allowClear: true
             });
 
             // Daterangepicker
             $('#tanggal_masuk').daterangepicker({
                 singleDatePicker: true,
                 showDropdowns: true,
+                autoUpdateInput: true,
                 minYear: 2014,
                 maxDate: moment().format('YYYY-MM-DD'),
                 locale: {
